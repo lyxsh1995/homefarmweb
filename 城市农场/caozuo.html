@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="./css/app.css" />
+		<title></title>
+		<script type="text/javascript" src="js/myjs.js"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/myjson.js"></script>
+		<script>
+			mui.init()
+			var queding;
+			var quxiao;
+			var json = new myjson();
+			var xhr = null;
+
+			document.addEventListener("plusready", onPlusReady, false);
+
+			function onPlusReady() {
+				queding = document.getElementById("queding");
+				quxiao = document.getElementById("quxiao");
+
+				plus.key.addEventListener("backbutton", onback, false);
+
+				queding.addEventListener("tap", onqueding, false);
+				quxiao.addEventListener("tap", onquxiao, false);
+			}
+
+			function onback() {
+				window.history.back(-1);
+			}
+
+			function onqueding() {
+				if(!document.getElementById("shijian").value) {
+					alert("请填写时间");
+					return;
+				}
+				if(!document.getElementById("checkbox1").checked &&
+					!document.getElementById("checkbox2").checked &&
+					!document.getElementById("checkbox3").checked &&
+					!document.getElementById("checkbox4").checked &&
+					!document.getElementById("checkbox5").checked) {
+					alert("请勾选操作层数");
+					return;
+				}
+
+				caozuo();
+			}
+			
+			function caozuo() {
+				if(document.getElementById("checkbox1").checked) {
+					json.FFloorOne = "1";
+				}
+				if(document.getElementById("checkbox2").checked) {
+					json.FFloorTwo = "1";
+				}
+				if(document.getElementById("checkbox3").checked) {
+					json.FFloorThree = "1";
+				}
+				if(document.getElementById("checkbox4").checked) {
+					json.FDouyaji = "1";
+				}
+				if(document.getElementById("checkbox5").checked) {
+					json.FMG = "1";
+				}
+				json.FTypeID = "3";
+				json.FFreq = "4";
+
+				json.FContinuePM = document.getElementById("shijian").value;
+
+				json.FExcTime = new Date().Format("yyyy-MM-dd HH:mm");
+				json.EQID = localStorage.getItem("EQID");
+
+				mui.post("http://192.168.0.104:80/app/", {
+					"fangfa": "charu",
+					"FFloorOne": json.FFloorOne,
+					"FFloorTwo": json.FFloorTwo,
+					"FFloorThree": json.FFloorThree,
+					"FDouyaji": json.FDouyaji,
+					"FMG": json.FMG,
+					"FTypeID": json.FTypeID,
+					"FFreq": json.FFreq,
+					"FContinuePM": json.FContinuePM,
+					"FExcTime": json.FExcTime,
+					"EQID": json.EQID,
+					"EQIDMD5": hex_md5(json.EQID)
+				}, function(data) {
+					alert(data);
+				}, "text");
+			}
+
+			function onquxiao() {
+				window.history.back(-1);
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">手动操作</h1>
+		</header>
+		<div class="mui-content">
+
+			<div class="mui-input-row mui-checkbox">
+				<label>第一层</label>
+				<input id="checkbox1" value="Item 1" type="checkbox">
+			</div>
+
+			<div class="mui-input-row mui-checkbox">
+				<label>第二层</label>
+				<input id="checkbox2" value="Item 2" type="checkbox">
+			</div>
+
+			<div class="mui-input-row mui-checkbox">
+				<label>第三层</label>
+				<input id="checkbox3" value="Item 3" type="checkbox">
+			</div>
+
+			<div class="mui-input-row mui-checkbox">
+				<label>第四层</label>
+				<input id="checkbox4" value="Item 4" type="checkbox">
+			</div>
+
+			<div class="mui-input-row mui-checkbox">
+				<label>第五层</label>
+				<input id="checkbox5" value="Item 5" type="checkbox">
+			</div>
+
+			<div style="text-align: center;">
+				<input id="shijian" type="number" style="text-align: center;" class="mui-input-clear" placeholder="执行时长" />
+			</div>
+
+			<div style="text-align: center;">
+				<button id="queding" type="button" style="margin-right: 80px;">确定</button>
+				<button id="quxiao" type="button">取消</button>
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,56 @@
+{
+	"index.html": {
+		"href": "index.html",
+		"priority": 0,
+		"resources": [
+			"js/myjs.js",
+			"caozuo.html",
+			"css/app.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"img/shishui.png",
+			"lianwang.html"
+		],
+		"refer": [
+			"caozuo.html",
+			"lianwang.html"
+		]
+	},
+	"Login.html": {
+		"resources": [
+			"index.html"
+		],
+		"refer": [
+			"index.html"
+		]
+	},
+	"caozuo.html": {
+		"resources": [
+			"index.html",
+			"css/app.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/mui.js",
+			"js/jquery.min.js",
+			"img/shishui.png",
+			"js/mui.min.js",
+			"js/jquery-3.1.1.slim.min.js",
+			"js/myjson.js",
+			"js/myjs.js"
+		],
+		"refer": [
+			"index.html"
+		]
+	},
+	"lianwang.html": {
+		"resources": [
+			"index.html",
+			"js/mui.min.js",
+			"js/socket.io.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"index.html"
+		]
+	}
+}

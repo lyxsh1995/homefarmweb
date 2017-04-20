@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="./css/app.css" />
+		<title></title>
+		<script type="text/javascript" src="js/myjs.js"></script>
+		<script type="text/javascript">
+			var EQID = getParam("EQID");
+			var xhr = null;
+			document.addEventListener("plusready", plusReady, false);
+
+			function plusReady() {
+				plus.key.addEventListener("backbutton", onback, false);
+			}
+
+			function anxia() {
+				
+				mui.post("http://192.168.0.104:80",
+				{
+										"EQID": EQID,
+					"macMD5": hex_md5(EQID.toString()),
+					"method": "Query",
+					"methodType": "Q",
+					"sql": "select 1"
+				},function(data){
+					alert(data);
+				},"text");
+			}
+
+			function caozuo() {
+				window.location.href = "caozuo.html";
+			}
+
+			var back__first;
+
+			function onback() {
+				if(plus.webview.currentWebview().id === plus.runtime.appid) { //首页
+					//首页不存在opener的情况下，后退实际上应该是退出应用；
+					//首次按键，提示‘再按一次退出应用’
+					if(!back__first) {
+						back__first = new Date().getTime();
+						plus.nativeUI.toast('再按一次退出应用');
+						setTimeout(function() {
+							back__first = null;
+						}, 2000);
+					} else {
+						if(new Date().getTime() - back__first < 2000) {
+							plus.runtime.quit();
+						}
+					}
+					return false;
+				}
+			}
+			
+			function lianwang(){
+				window.location.href = "lianwang.html";
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-pull-left"></a>
+			<h1 class="mui-title">城市农场</h1>
+		</header>
+		<div class="mui-content">
+			<button name="button1" onclick="lianwang()">辅助设备联网</button>
+			<button name="shishui" onclick="caozuo()">施水</button>
+			<ul class="mui-table-view mui-grid-view mui-grid-9">
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-home"></span>
+						<div class="mui-media-body">Home</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-email">
+							<span class="mui-badge">6</span></span>
+						<div class="mui-media-body">Email</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-chatbubble"></span>
+						<div class="mui-media-body">Chat</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-location"></span>
+						<div class="mui-media-body">location</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-search"></span>
+						<div class="mui-media-body">Search</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-phone"></span>
+						<div class="mui-media-body">Phone</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-gear"></span>
+						<div class="mui-media-body">Setting</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="#">
+						<span class="mui-icon mui-icon-info"></span>
+						<div class="mui-media-body">about</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+					<a href="caozuo.html?leixing=shishui">
+						<span style="background-image: url(img/shishui.png);"></span>
+						<div class="mui-media-body">施水</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+
+</html>

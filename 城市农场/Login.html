@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script>
+			// 扩展API加载完毕后调用onPlusReady回调函数 
+			document.addEventListener("plusready", onPlusReady, false);
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			var scan;
+			var EQID;
+			EQID = localStorage.getItem("EQID"); //获取键的值 
+			if(EQID != null) {
+				window.location.href = "index.html?EQID=" + EQID;
+			}
+
+			function onPlusReady() {
+				scan = new plus.barcode.Barcode('bcid');
+				scan.onmarked = onmarked;
+				scan.start();
+			}
+
+			function onmarked(type, result) {
+				try {
+					EQID = result.substring(result.indexOf("?") + 1, result.indexOf("|"));
+					localStorage.setItem("EQID", EQID); //设置键的值 
+					scan.cancel();
+					scan.close();
+					window.location.href = "index.html?EQID=" + EQID;
+				} catch(err) {}
+			}
+
+			function dianji() {
+				localStorage.setItem("EQID", "d8b04cb5c260"); //设置键的值 
+			}
+		</script>
+		<style type="text/css">
+			* {
+				-webkit-user-select: none;
+			}
+			
+			html,
+			body {
+				margin: 0px;
+				padding: 0px;
+				height: 100%;
+			}
+			
+			#bcid {
+				background: #225588;
+				height: 480px;
+				width: 360px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<button onclick="dianji()">按钮</button>
+		<div id="bcid"></div>
+	</body>
+
+</html>
